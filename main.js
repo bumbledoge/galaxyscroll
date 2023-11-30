@@ -40,23 +40,29 @@ const o2 = new THREE.Mesh(
 );
 const o3 = new THREE.Mesh(new THREE.ConeGeometry(1, 2, 32), material);
 
-o1.position.y = -objectPosition * 0;
 o2.position.y = -objectPosition * 1;
 o3.position.y = -objectPosition * 2;
 
-scene.add(o1);
-scene.add(o2);
-scene.add(o3);
+o1.position.x = 1;
+o2.position.x = -1.5;
+o3.position.x = 1;
+
+scene.add(o1, o2, o3);
+const meshes = [o1, o2, o3];
 
 /**
  * Lights
  */
-const light2 = new THREE.PointLight("#ffffff", 40);
-light2.position.set(-4, 0, 4);
+const light2 = new THREE.PointLight("#ffffff", 200);
+light2.position.set(-10, -5, 4);
 scene.add(light2);
+// const light3 = new THREE.PointLight("#ffffff", 30);
+// light3.position.set(-4, -10, 4);
+// scene.add(light3);
 
 const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
 renderer.setSize(marimi.width, marimi.height);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.render(scene, camera);
 
 const clock = new THREE.Clock();
@@ -65,16 +71,17 @@ let previousTime = 0;
 /**
  * ANIMATIONS
  */
-// window.addEventListener("scroll", (e) => {
-//   camera.position.y = Math.round(window.scrollY / marimi.height);
-// });
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
   const deltaTime = elapsedTime - previousTime;
-  // o1.rotation.x += deltaTime;
-  // o1.rotation.y += deltaTime;
+
   camera.position.y = (-scrollY / marimi.height) * objectPosition;
+
+  for (const mesh in meshes) {
+    meshes[mesh].rotation.x += deltaTime;
+    meshes[mesh].rotation.y += deltaTime;
+  }
 
   previousTime = elapsedTime;
 
