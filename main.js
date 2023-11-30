@@ -57,7 +57,6 @@ for (let i in partPositions) {
   partPositions[i * 3 + 1] =
     objectPosition * 0.5 - Math.random() * objectPosition * meshes.length;
   partPositions[i * 3 + 2] = (Math.random() - 0.5) * 10;
-  console.log(partPositions[i * 3 + 1]);
 }
 const particlesGeometry = new THREE.BufferGeometry();
 particlesGeometry.setAttribute(
@@ -102,19 +101,19 @@ window.addEventListener("mousemove", (e) => {
 /**
  * ANIMATIONS
  */
-window.addEventListener("resize", () => {
-  // Update sizes
-  marimi.width = window.innerWidth;
-  marimi.height = window.innerHeight;
+// window.addEventListener("resize", () => {
+//   // Update sizes
+//   marimi.width = window.innerWidth;
+//   marimi.height = window.innerHeight;
 
-  // Update camera
-  camera.aspect = marimi.width / marimi.height;
-  camera.updateProjectionMatrix();
+//   // Update camera
+//   camera.aspect = marimi.width / marimi.height;
+//   camera.updateProjectionMatrix();
 
-  // Update renderer
-  renderer.setSize(marimi.width, marimi.height);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-});
+//   // Update renderer
+//   renderer.setSize(marimi.width, marimi.height);
+//   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+// });
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
