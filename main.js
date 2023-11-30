@@ -19,7 +19,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   100
 );
-camera.position.z = 20;
+camera.position.z = 8;
 
 /**
  * Object
@@ -27,21 +27,30 @@ camera.position.z = 20;
 const textureLoader = new THREE.TextureLoader();
 const objectTexture = textureLoader.load("./static/gradients/3.jpg");
 objectTexture.magFilter = THREE.NearestFilter;
-
 const material = new THREE.MeshToonMaterial({
   color: 0xffeded,
   gradientMap: objectTexture,
 });
 
+const objectPosition = 5;
 const o1 = new THREE.Mesh(new THREE.TorusGeometry(1, 0.4, 16, 60), material);
+const o2 = new THREE.Mesh(
+  new THREE.TorusKnotGeometry(0.8, 0.35, 100, 16),
+  material
+);
+const o3 = new THREE.Mesh(new THREE.ConeGeometry(1, 2, 32), material);
+
+o1.position.y = -objectPosition * 0;
+o2.position.y = -objectPosition * 1;
+o3.position.y = -objectPosition * 2;
+
 scene.add(o1);
-camera.lookAt(o1.position);
+scene.add(o2);
+scene.add(o3);
 
 /**
  * Lights
  */
-// const light1 = new THREE.AmbientLight("#ffffff");
-// scene.add(light1);
 const light2 = new THREE.PointLight("#ffffff", 40);
 light2.position.set(-4, 0, 4);
 scene.add(light2);
@@ -53,11 +62,19 @@ renderer.render(scene, camera);
 const clock = new THREE.Clock();
 let previousTime = 0;
 
+/**
+ * ANIMATIONS
+ */
+// window.addEventListener("scroll", (e) => {
+//   camera.position.y = Math.round(window.scrollY / marimi.height);
+// });
+
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
   const deltaTime = elapsedTime - previousTime;
-  o1.rotation.x += deltaTime;
-  o1.rotation.y += deltaTime;
+  // o1.rotation.x += deltaTime;
+  // o1.rotation.y += deltaTime;
+  camera.position.y = (-scrollY / marimi.height) * objectPosition;
 
   previousTime = elapsedTime;
 
