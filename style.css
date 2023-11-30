@@ -9,11 +9,15 @@ body {
   margin: 0;
   font-family: "satoshi";
 }
+canvas.webgl {
+  position: fixed;
+  top: 0;
+}
 
 .sections {
   display: flex;
   flex-direction: column;
-  margin: 35% 20px;
+  margin: 35% 40px;
   gap: 500px;
 }
 .section {
