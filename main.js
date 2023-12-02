@@ -1,5 +1,13 @@
 import * as THREE from "three";
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
+const loader = new GLTFLoader();
+
+let cajon = undefined;
+loader.load('static/cajon.glb', (gltf) => {
+  cajon = gltf;
+  scene.add(gltf.scene)
+});
 const canvas = document.querySelector("canvas.webgl");
 const marimi = {
   width: window.innerWidth,
@@ -8,7 +16,7 @@ const marimi = {
 const scene = new THREE.Scene();
 const cameraGroup = new THREE.Group();
 scene.add(cameraGroup);
-
+console.log(cajon)
 const camera = new THREE.PerspectiveCamera(
   35,
   marimi.width / marimi.height,
@@ -44,7 +52,7 @@ o1.position.x = 1;
 o2.position.x = -1.5;
 o3.position.x = 1;
 
-scene.add(o1, o2, o3);
+scene.add( o2, o3);
 const meshes = [o1, o2, o3];
 
 /**
@@ -76,7 +84,9 @@ scene.add(particles);
  */
 const light2 = new THREE.PointLight("#ffffff", 200);
 light2.position.set(-10, -5, 4);
-scene.add(light2);
+const light3 = new THREE.PointLight("#ffffff", 150);
+light3.position.set(10, 5, 0);
+scene.add(light2, light3);
 
 const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
 renderer.setSize(marimi.width, marimi.height);
@@ -118,6 +128,12 @@ window.addEventListener("mousemove", (e) => {
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
   const deltaTime = elapsedTime - previousTime;
+
+  if(cajon) {
+    // console.log(cajon)
+    cajon.scene.rotation.x += deltaTime * 0.3;
+    cajon.scene.rotation.y += deltaTime * 0.5;
+  }
 
   camera.position.y = (-scrollY / marimi.height) * objectPosition;
 
